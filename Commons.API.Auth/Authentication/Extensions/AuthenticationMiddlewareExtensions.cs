@@ -1,20 +1,20 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Commons.API.Auth.Authentication.Extensions;
 
 public static class AuthenticationMiddlewareExtensions
 {
-    public static IServiceCollection AddAuthenticationMiddleware(this IServiceCollection services)
+    public static IAuthenticationMiddlewareServiceBuiler<TIdentity> SetupAuthenticationMiddleware<TIdentity>(this IServiceCollection services)
+        where TIdentity : class, new()
     {
-        services.TryAddSingleton(typeof(JwtAuthentication<>));
-        return services;
+        return new DefaultAuthenticationMiddlewareServiceBuiler<TIdentity>(services);
     }
 
-    public static IApplicationBuilder UseAuthenticationMiddleware(this IApplicationBuilder builder)
+    public static IApplicationBuilder UseAuthenticationMiddleware<TIdentity>(this IApplicationBuilder builder)
+        where TIdentity : class, new()
     {
-        return builder.UseMiddleware(typeof(AuthenticationMiddleware<>));
+        return builder.UseMiddleware<AuthenticationMiddleware<TIdentity>>();
     }
 }

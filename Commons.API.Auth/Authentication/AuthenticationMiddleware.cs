@@ -5,24 +5,20 @@ using System.Text.Json;
 
 namespace Commons.API.Auth.Authentication
 {
-    public class AuthenticationMiddleware<TIdentity> where TIdentity : class, new()
+    public class AuthenticationMiddleware<TIdentity> : IMiddleware where TIdentity : class, new()
     {
-        private readonly RequestDelegate next;
         private readonly JwtAuthentication<TIdentity> jwtAuthentication;
         private readonly IOptions<JwtOptions> jwtAuthenticationOptions;
 
         public AuthenticationMiddleware(
-            RequestDelegate next,
             JwtAuthentication<TIdentity> jwtAuthentication,
-            IOptions<JwtOptions> jwtAuthenticationOptions,
-            Func<IDictionary<string, string>, TIdentity> claimsFunc)
+            IOptions<JwtOptions> jwtAuthenticationOptions)
         {
-            this.next = next;
             this.jwtAuthentication = jwtAuthentication;
             this.jwtAuthenticationOptions = jwtAuthenticationOptions;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             var endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
             var attribute = endpoint?.Metadata.GetMetadata<AuthenticateAttribute>();

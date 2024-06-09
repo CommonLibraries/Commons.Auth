@@ -5,27 +5,21 @@ using Microsoft.AspNetCore.Http.Features;
 
 namespace Commons.API.Auth.Authorization;
 
-public interface IAuthorizationChecking<TIdentity> where TIdentity : class, new()
+public class AuthorizationMiddleware<TIdentity>: IMiddleware where TIdentity: class, new()
 {
-    Task<bool> Check(TIdentity identity, string permission, CancellationToken cancellationToken = default);
-}
-
-public class AuthorizationMiddleware<TIdentity> where TIdentity: class, new()
-{
-    private readonly RequestDelegate next;
-
-    public AuthorizationMiddleware(RequestDelegate next)
+    private readonly IAuthorizationChecking<TIdentity> authorizationChecking;
+    public AuthorizationMiddleware(IAuthorizationChecking<TIdentity> authorizationChecking)
     {
-        this.next = next;
+        this.authorizationChecking = authorizationChecking;
     }
 
-    public async Task InvokeAsync(HttpContext context, IAuthorizationChecking<TIdentity> authorizationChecking)
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         var endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
         var attribute = endpoint?.Metadata.GetMetadata<AuthorizeAttribute>();
         if (attribute is null)
         {
-            await this.next(context);
+            await next(context);
             return;
         }
 
@@ -56,6 +50,6 @@ public class AuthorizationMiddleware<TIdentity> where TIdentity: class, new()
             return;
         }
 
-        await this.next(context);
+        await next(context);
     }
 }
