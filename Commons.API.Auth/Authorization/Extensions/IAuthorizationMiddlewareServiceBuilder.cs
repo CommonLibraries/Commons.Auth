@@ -1,4 +1,6 @@
-﻿namespace Commons.API.Auth.Authorization.Extensions;
+﻿using Microsoft.Extensions.Configuration;
+
+namespace Commons.API.Auth.Authorization.Extensions;
 
 public interface IAuthorizationMiddlewareServiceBuilder<TIdentity> where TIdentity : class, new()
 {

@@ -1,11 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Commons.API.Auth.Authentication.Jwt;
+using Commons.API.Auth.Authentication.RefreshToken;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Collections;
 
 namespace Commons.API.Auth.Authentication.Extensions;
 
-internal class DefaultAuthenticationMiddlewareServiceBuiler<TIdentity> : IAuthenticationMiddlewareServiceBuiler<TIdentity>
-    where TIdentity : class, new()
+internal class DefaultAuthenticationMiddlewareServiceBuiler<TIdentity> :
+    IAuthenticationMiddlewareServiceBuiler<TIdentity>
+        where TIdentity : class, new()
 {
     private readonly IServiceCollection services;
     public DefaultAuthenticationMiddlewareServiceBuiler(IServiceCollection services)
@@ -35,6 +39,15 @@ internal class DefaultAuthenticationMiddlewareServiceBuiler<TIdentity> : IAuthen
                 class, IIdentityValidation<TIdentity>
     {
         this.services.TryAddTransient<IIdentityValidation<TIdentity>, TIdentityValidation>();
+        return this;
+    }
+
+    public IAuthenticationMiddlewareServiceBuiler<TIdentity> AddJwtOptions(IConfigurationSection configurationSection)
+    {
+        this.services.AddOptions<JwtOptions>()
+            .Bind(configurationSection)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
         return this;
     }
 }

@@ -2,20 +2,17 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
+using Commons.API.Auth.Authentication.Jwt;
 
 namespace Commons.API.Auth.Authentication
 {
     public class AuthenticationMiddleware<TIdentity> : IMiddleware where TIdentity : class, new()
     {
         private readonly JwtAuthentication<TIdentity> jwtAuthentication;
-        private readonly IOptions<JwtOptions> jwtAuthenticationOptions;
 
-        public AuthenticationMiddleware(
-            JwtAuthentication<TIdentity> jwtAuthentication,
-            IOptions<JwtOptions> jwtAuthenticationOptions)
+        public AuthenticationMiddleware(JwtAuthentication<TIdentity> jwtAuthentication)
         {
             this.jwtAuthentication = jwtAuthentication;
-            this.jwtAuthenticationOptions = jwtAuthenticationOptions;
         }
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -28,9 +25,15 @@ namespace Commons.API.Auth.Authentication
                 return;
             }
 
-            var jwtToken = context.Request.Cookies["access-token"];
+            var input = context.Features.Get<IAuthenticationInputFeature>();
+            if (input is null)
+            {
+                await next(context);
+                return;
+            }
 
-            if (jwtToken is null)
+            var jwtToken = input.AccessToken;
+            if (string.IsNullOrWhiteSpace(jwtToken))
             {
                 context.Response.Clear();
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
@@ -44,9 +47,7 @@ namespace Commons.API.Auth.Authentication
                 return;
             }
 
-            var identity = await jwtAuthentication.ValidateJwt(
-                jwtToken,
-                jwtAuthenticationOptions.Value.SigningKey);
+            var identity = await jwtAuthentication.ValidateJwt(jwtToken);
 
             if (identity is null)
             {
@@ -59,7 +60,7 @@ namespace Commons.API.Auth.Authentication
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 }, context.RequestAborted);
-                
+
                 return;
             }
 

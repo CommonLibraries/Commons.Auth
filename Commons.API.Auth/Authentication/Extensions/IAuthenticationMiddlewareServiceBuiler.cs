@@ -1,4 +1,6 @@
-﻿namespace Commons.API.Auth.Authentication.Extensions;
+﻿using Microsoft.Extensions.Configuration;
+
+namespace Commons.API.Auth.Authentication.Extensions;
 
 public interface IAuthenticationMiddlewareServiceBuiler<TIdentity>
 {
@@ -7,4 +9,5 @@ public interface IAuthenticationMiddlewareServiceBuiler<TIdentity>
         where TClaimsIdentityMapping : class, IClaimsIdentityMapping<TIdentity>;
     IAuthenticationMiddlewareServiceBuiler<TIdentity> AddIdentityValidation<TIdentityValidation>()
         where TIdentityValidation : class, IIdentityValidation<TIdentity>;
+    IAuthenticationMiddlewareServiceBuiler<TIdentity> AddJwtOptions(IConfigurationSection configurationSection);
 }
