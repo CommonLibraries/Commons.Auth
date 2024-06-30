@@ -39,7 +39,8 @@ public class JwtAuthentication<TIdentity> where TIdentity : class
         var tokenDescriptor = new SecurityTokenDescriptor()
         {
             Subject = new System.Security.Claims.ClaimsIdentity(claims),
-            Expires = expiration
+            Expires = expiration,
+            SigningCredentials = signingCredentials
         };
 
         var token = jwtHandler.CreateToken(tokenDescriptor);
