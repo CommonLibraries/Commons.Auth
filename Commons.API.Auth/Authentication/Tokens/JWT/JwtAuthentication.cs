@@ -4,14 +4,14 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Commons.API.Auth.Authentication.Jwt;
+namespace Commons.API.Auth.Authentication.Tokens.JWT;
 
 public class JwtAuthentication<TIdentity> where TIdentity : class
 {
-    private readonly IClaimsIdentityMapping<TIdentity> claimsIdentityMapping;
+    private readonly IIdentityMapping<TIdentity> claimsIdentityMapping;
     private readonly JwtOptions options;
     public JwtAuthentication(
-        IClaimsIdentityMapping<TIdentity> claimsIdentityMapping,
+        IIdentityMapping<TIdentity> claimsIdentityMapping,
         IOptions<JwtOptions> options)
     {
         this.claimsIdentityMapping = claimsIdentityMapping;
@@ -20,8 +20,8 @@ public class JwtAuthentication<TIdentity> where TIdentity : class
 
     public JwtToken GenerateJwt(TIdentity identity)
     {
-        var expiry = DateTime.UtcNow + this.options.Lifespan;
-        return this.GenerateJwt(identity, this.options.SigningKey, expiry);
+        var expiry = DateTime.UtcNow + options.Lifespan;
+        return GenerateJwt(identity, options.SigningKey, expiry);
     }
 
     private JwtToken GenerateJwt(
@@ -49,7 +49,7 @@ public class JwtAuthentication<TIdentity> where TIdentity : class
 
     public Task<TIdentity?> ValidateJwt(string token)
     {
-        return this.ValidateJwt(token, this.options.SigningKey);
+        return ValidateJwt(token, options.SigningKey);
     }
 
     private async Task<TIdentity?> ValidateJwt(

@@ -1,4 +1,4 @@
-﻿namespace Commons.API.Auth.Authentication.RefreshToken;
+﻿namespace Commons.API.Auth.Helpers.RefreshToken;
 
 public class RefreshTokenOptions
 {

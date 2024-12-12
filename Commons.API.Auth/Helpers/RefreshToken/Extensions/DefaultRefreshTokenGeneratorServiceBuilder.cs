@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Commons.API.Auth.Helpers.RefreshToken;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Commons.API.Auth.Authentication.RefreshToken.Extensions;
+namespace Commons.API.Auth.Helpers.RefreshToken.Extensions;
 
 internal class DefaultRefreshTokenGeneratorServiceBuilder : IRefreshTokenGeneratorServiceBuilder
 {

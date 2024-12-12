@@ -1,4 +1,4 @@
-﻿namespace Commons.API.Auth.Authentication.RefreshToken;
+﻿namespace Commons.API.Auth.Helpers.RefreshToken;
 
 public class RefreshToken
 {
@@ -8,8 +8,8 @@ public class RefreshToken
 
     public RefreshToken(string token, DateTime issuedAt, DateTime expiration)
     {
-        this.Token = token;
-        this.IssuedAt = issuedAt;
-        this.Expiration = expiration;
+        Token = token;
+        IssuedAt = issuedAt;
+        Expiration = expiration;
     }
 }

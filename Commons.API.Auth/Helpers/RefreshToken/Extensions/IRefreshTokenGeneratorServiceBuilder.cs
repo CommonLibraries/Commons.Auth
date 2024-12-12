@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Commons.API.Auth.Authentication.RefreshToken.Extensions;
+namespace Commons.API.Auth.Helpers.RefreshToken.Extensions;
 
 public interface IRefreshTokenGeneratorServiceBuilder
 {

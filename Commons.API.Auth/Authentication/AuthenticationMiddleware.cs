@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
-using Commons.API.Auth.Authentication.Jwt;
+using Commons.API.Auth.Authentication.Features.AuthenticationFeature;
+using Commons.API.Auth.Authentication.Features.RawAuthenticationFeature;
+using Commons.API.Auth.Authentication.Tokens.JWT;
 
 namespace Commons.API.Auth.Authentication
 {
@@ -25,7 +27,7 @@ namespace Commons.API.Auth.Authentication
                 return;
             }
 
-            var input = context.Features.Get<IAuthenticationInputFeature>();
+            var input = context.Features.Get<ITokenFeature>();
             if (input is null)
             {
                 await next(context);
@@ -64,11 +66,11 @@ namespace Commons.API.Auth.Authentication
                 return;
             }
 
-            var authenticationFeature = new AuthenticationFeature<TIdentity>()
+            var authenticationFeature = new IdentityFeature<TIdentity>()
             {
                 Identity = identity
             };
-            context.Features.Set<IAuthenticationFeature<TIdentity>>(authenticationFeature);
+            context.Features.Set<IIdentityFeature<TIdentity>>(authenticationFeature);
             await next(context);
         }
     }

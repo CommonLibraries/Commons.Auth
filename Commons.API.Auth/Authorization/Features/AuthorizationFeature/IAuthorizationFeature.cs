@@ -1,4 +1,4 @@
-namespace Commons.API.Auth.Authorization;
+namespace Commons.API.Auth.Authorization.Features.AuthorizationFeature;
 
 public interface IAuthorizationFeature
 {

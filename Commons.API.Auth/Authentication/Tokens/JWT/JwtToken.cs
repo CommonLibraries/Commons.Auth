@@ -1,4 +1,4 @@
-﻿namespace Commons.API.Auth.Authentication.Jwt;
+﻿namespace Commons.API.Auth.Authentication.Tokens.JWT;
 
 public class JwtToken
 {
@@ -7,7 +7,7 @@ public class JwtToken
 
     public JwtToken(string token, DateTime expiration)
     {
-        this.Token = token;
-        this.Expiration = expiration;
+        Token = token;
+        Expiration = expiration;
     }
 }

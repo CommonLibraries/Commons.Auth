@@ -1,4 +1,4 @@
-using Commons.API.Auth.Authentication;
+using Commons.API.Auth.Authentication.Features.AuthenticationFeature;
 using Commons.API.Auth.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -23,7 +23,7 @@ public class AuthorizationMiddleware<TIdentity>: IMiddleware where TIdentity: cl
             return;
         }
 
-        var authentication = context.Features.Get<IAuthenticationFeature<TIdentity>>();
+        var authentication = context.Features.Get<IIdentityFeature<TIdentity>>();
         if (authentication is null)
         {
             context.Response.Clear();

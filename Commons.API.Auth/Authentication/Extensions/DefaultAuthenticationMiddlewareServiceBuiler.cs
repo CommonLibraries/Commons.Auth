@@ -1,5 +1,4 @@
-﻿using Commons.API.Auth.Authentication.Jwt;
-using Commons.API.Auth.Authentication.RefreshToken;
+﻿using Commons.API.Auth.Authentication.Tokens.JWT;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -25,11 +24,11 @@ internal class DefaultAuthenticationMiddlewareServiceBuiler<TIdentity> :
     }
 
     public IAuthenticationMiddlewareServiceBuiler<TIdentity>
-        AddClaimsMapping<TClaimsIdentityMapping>()
+        AddIdentityMapping<TClaimsIdentityMapping>()
             where TClaimsIdentityMapping :
-                class, IClaimsIdentityMapping<TIdentity>
+                class, IIdentityMapping<TIdentity>
     {
-        this.services.TryAddTransient<IClaimsIdentityMapping<TIdentity>, TClaimsIdentityMapping>();
+        this.services.TryAddTransient<IIdentityMapping<TIdentity>, TClaimsIdentityMapping>();
         return this;
     }
 
