@@ -30,7 +30,8 @@ namespace Commons.Auth.API.Authentication.Middlewares
             var input = context.Features.Get<IJwtTokenFeature>();
             if (input is null)
             {
-                await next(context);
+                context.Response.Clear();
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 return;
             }
 
