@@ -24,24 +24,25 @@ namespace Commons.Auth.Infrastructure.Authentication.Jwt
 
         public JwtToken GenerateToken(TJwtPayload payload)
         {
-            var expiry = DateTime.UtcNow + options.Lifespan;
-
-            var jwtHandler = new JsonWebTokenHandler();
+            var expiration = DateTime.UtcNow + options.Lifespan;
 
             var claims = payloadMapping.ToClaims(payload).Select(item => new System.Security.Claims.Claim(item.Key, item.Value));
 
             var signingKey = Encoding.ASCII.GetBytes(options.SigningKey);
-            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(signingKey), SecurityAlgorithms.HmacSha256Signature);
+            var signingCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(signingKey),
+                SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new System.Security.Claims.ClaimsIdentity(claims),
-                Expires = expiry,
+                Expires = expiration,
                 SigningCredentials = signingCredentials
             };
 
+            var jwtHandler = new JsonWebTokenHandler();
             var token = jwtHandler.CreateToken(tokenDescriptor);
-            return new JwtToken(token, expiry);
+            return new JwtToken(token, expiration);
         }
     }
 }
