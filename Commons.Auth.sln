@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commons.Auth.Domain", "Commons.Auth.Domain\Commons.Auth.Domain.csproj", "{52830BBB-0A6D-4F12-A4F2-3CD0877E77FC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commons.Auth.Application", "Commons.Auth.Application\Commons.Auth.Application.csproj", "{426D2580-05D8-4FE5-8C18-D0FBC17E80EC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commons.Auth.Infrastructure", "Commons.Auth.Infrastructure\Commons.Auth.Infrastructure.csproj", "{AA2586B6-9557-4608-9DAC-F403D5FBB8A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commons.Auth.API", "Commons.Auth.API\Commons.Auth.API.csproj", "{4622B571-06E7-DEF1-1AB5-F496714F1FF1}"
@@ -19,14 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{52830BBB-0A6D-4F12-A4F2-3CD0877E77FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52830BBB-0A6D-4F12-A4F2-3CD0877E77FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52830BBB-0A6D-4F12-A4F2-3CD0877E77FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52830BBB-0A6D-4F12-A4F2-3CD0877E77FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{426D2580-05D8-4FE5-8C18-D0FBC17E80EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{426D2580-05D8-4FE5-8C18-D0FBC17E80EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{426D2580-05D8-4FE5-8C18-D0FBC17E80EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{426D2580-05D8-4FE5-8C18-D0FBC17E80EC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AA2586B6-9557-4608-9DAC-F403D5FBB8A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AA2586B6-9557-4608-9DAC-F403D5FBB8A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA2586B6-9557-4608-9DAC-F403D5FBB8A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
