@@ -8,6 +8,6 @@ namespace Commons.Auth.Application.Abstractions.Authentication.RefreshTokens
 {
     public interface IRefreshTokenGenerator
     {
-        RefreshTokenDto Generate();
+        RefreshTokenDTO Generate();
     }
 }

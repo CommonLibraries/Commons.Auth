@@ -12,11 +12,11 @@ public class DefaultRefreshTokenGenerator: IRefreshTokenGenerator
         this.options = options.Value;
     }
 
-    public RefreshTokenDto Generate()
+    public RefreshTokenDTO Generate()
     {
         var token = RandomNumberGenerator.GetHexString(options.Length, false);
         var issuedAt = DateTime.UtcNow;
         var expiration = DateTime.UtcNow + options.Lifespan;
-        return new RefreshTokenDto(token, issuedAt, expiration);
+        return new RefreshTokenDTO(token, issuedAt, expiration);
     }
 }
