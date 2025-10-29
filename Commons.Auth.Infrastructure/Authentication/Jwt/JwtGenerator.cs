@@ -22,7 +22,7 @@ namespace Commons.Auth.Infrastructure.Authentication.Jwt
             this.options = options.Value;
         }
 
-        public JwtToken GenerateToken(TJwtPayload payload)
+        public JwtTokenDTO GenerateToken(TJwtPayload payload)
         {
             var expiration = DateTime.UtcNow + options.Lifespan;
 
@@ -42,7 +42,7 @@ namespace Commons.Auth.Infrastructure.Authentication.Jwt
 
             var jwtHandler = new JsonWebTokenHandler();
             var token = jwtHandler.CreateToken(tokenDescriptor);
-            return new JwtToken(token, expiration);
+            return new JwtTokenDTO(token, expiration);
         }
     }
 }

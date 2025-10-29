@@ -8,6 +8,6 @@ namespace Commons.Auth.Application.Abstractions.Authentication.Jwt
 {
     public interface IJwtGenerator<TJwtPayload>
     {
-        JwtToken GenerateToken(TJwtPayload payload);
+        JwtTokenDTO GenerateToken(TJwtPayload payload);
     }
 }

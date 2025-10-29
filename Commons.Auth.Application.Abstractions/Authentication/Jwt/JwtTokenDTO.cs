@@ -1,11 +1,11 @@
 ﻿namespace Commons.Auth.Application.Abstractions.Authentication.Jwt;
 
-public class JwtToken
+public class JwtTokenDTO
 {
     public string Token { get; }
     public DateTime Expiration { get; }
 
-    public JwtToken(string token, DateTime expiration)
+    public JwtTokenDTO(string token, DateTime expiration)
     {
         Token = token;
         Expiration = expiration;
