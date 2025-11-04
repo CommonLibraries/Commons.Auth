@@ -10,11 +10,11 @@ namespace Commons.Auth.Infrastructure.Authentication.Jwt.Extensions
 {
     public static class JwtExtensions
     {
-        public static IServiceCollection AddJwt<TJwtPayload>(this IServiceCollection services)
+        public static IJwtServiceBuilder AddJwtGenerator(this IServiceCollection services)
         {
-            services.AddTransient<IJwtGenerator<TJwtPayload>, JwtGenerator<TJwtPayload>>();
-            services.AddTransient<IJwtValidator<TJwtPayload>, JwtValidator<TJwtPayload>>();
-            return services;
+            services.AddTransient(typeof(IJwtGenerator<>), typeof(DefaultJwtGenerator<>));
+            services.AddTransient(typeof(IJwtValidator<>), typeof(JwtValidator<>));
+            return new DefaultJwtServiceBuilder(services);
         }
     }
 }

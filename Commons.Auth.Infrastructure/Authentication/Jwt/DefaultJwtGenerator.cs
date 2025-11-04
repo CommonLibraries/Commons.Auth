@@ -11,12 +11,14 @@ using System.Threading.Tasks;
 
 namespace Commons.Auth.Infrastructure.Authentication.Jwt
 {
-    public class JwtGenerator<TJwtPayload> : IJwtGenerator<TJwtPayload>
+    public class DefaultJwtGenerator<TJwtPayload> : IJwtGenerator<TJwtPayload>
     {
         private readonly IJwtPayloadMapping<TJwtPayload> payloadMapping;
         private readonly JwtOptions options;
 
-        public JwtGenerator(IJwtPayloadMapping<TJwtPayload> payloadMapping, IOptions<JwtOptions> options)
+        public DefaultJwtGenerator(
+            IJwtPayloadMapping<TJwtPayload> payloadMapping,
+            IOptions<JwtOptions> options)
         {
             this.payloadMapping = payloadMapping;
             this.options = options.Value;
