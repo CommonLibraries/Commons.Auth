@@ -1,16 +1,22 @@
 using Commons.API.Auth.DTOs;
-using Commons.Auth.API.Authentication.Features.JwtPayloadFeature;
+using Commons.Auth.API.Authentication.Contexts;
+using Commons.Auth.Application.Abstractions.Authorizations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 
 namespace Commons.Auth.API.Authorization.Middlewares;
 
-public class AuthorizationMiddleware<TJwtPayload>: IMiddleware where TJwtPayload: class, new()
+public class AuthorizationMiddleware<TIdentity>: IMiddleware
 {
-    private readonly IAuthorizationChecking<TJwtPayload> authorizationChecking;
-    public AuthorizationMiddleware(IAuthorizationChecking<TJwtPayload> authorizationChecking)
+    private readonly IAuthorizationChecking<TIdentity> authorizationChecking;
+    private readonly IIdentityContext<TIdentity> identityContext;
+
+    public AuthorizationMiddleware(
+        IAuthorizationChecking<TIdentity> authorizationChecking,
+        IIdentityContext<TIdentity> identityContext)
     {
         this.authorizationChecking = authorizationChecking;
+        this.identityContext = identityContext;
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -23,8 +29,8 @@ public class AuthorizationMiddleware<TJwtPayload>: IMiddleware where TJwtPayload
             return;
         }
 
-        var authentication = context.Features.Get<IJwtPayloadFeature<TJwtPayload>>();
-        if (authentication is null)
+        var identity = this.identityContext.Current;
+        if (identity is null)
         {
             context.Response.Clear();
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
@@ -36,7 +42,7 @@ public class AuthorizationMiddleware<TJwtPayload>: IMiddleware where TJwtPayload
             return;
         }
 
-        var pass = await authorizationChecking.Check(authentication.Identity, attribute.Permission, context.RequestAborted);
+        var pass = await authorizationChecking.Check(identity, attribute.Permission, context.RequestAborted);
 
         if (!pass)
         {

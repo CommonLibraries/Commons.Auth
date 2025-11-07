@@ -3,18 +3,24 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 using Commons.Auth.Application.Abstractions.Authentication.Jwt;
-using Commons.Auth.API.Authentication.Features.JwtPayloadFeature;
-using Commons.Auth.API.Authentication.Features.JwtTokenFeature;
+using Commons.Auth.API.Authentication.Contexts;
 
 namespace Commons.Auth.API.Authentication.Middlewares
 {
-    public class AuthenticationMiddleware<TIdentity> : IMiddleware where TIdentity : class, new()
+    public class AuthenticationMiddleware<TIdentity> : IMiddleware
     {
         private readonly IJwtValidator<TIdentity> jwtValidator;
+        private readonly IJwtTokenContext jwtTokenContext;
+        private readonly IMutableIdentityContext<TIdentity> identityContext;
 
-        public AuthenticationMiddleware(IJwtValidator<TIdentity> jwtValidator)
+        public AuthenticationMiddleware(
+            IJwtTokenContext jwtTokenContext,
+            IJwtValidator<TIdentity> jwtValidator,
+            IMutableIdentityContext<TIdentity> identityContext)
         {
+            this.jwtTokenContext = jwtTokenContext;
             this.jwtValidator = jwtValidator;
+            this.identityContext = identityContext;
         }
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -27,15 +33,7 @@ namespace Commons.Auth.API.Authentication.Middlewares
                 return;
             }
 
-            var input = context.Features.Get<IJwtTokenFeature>();
-            if (input is null)
-            {
-                context.Response.Clear();
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                return;
-            }
-
-            var jwtToken = input.Token;
+            var jwtToken = this.jwtTokenContext.Current;
             if (string.IsNullOrWhiteSpace(jwtToken))
             {
                 context.Response.Clear();
@@ -67,11 +65,7 @@ namespace Commons.Auth.API.Authentication.Middlewares
                 return;
             }
 
-            var authenticationFeature = new JwtPayloadFeature<TIdentity>()
-            {
-                Identity = payload
-            };
-            context.Features.Set<IJwtPayloadFeature<TIdentity>>(authenticationFeature);
+            this.identityContext.Current = payload;
             await next(context);
         }
     }

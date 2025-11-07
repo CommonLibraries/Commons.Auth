@@ -1,10 +1,10 @@
-﻿using Commons.Auth.API.Authorization.Middlewares;
+﻿using Commons.Auth.Application.Abstractions.Authorizations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Commons.Auth.API.Authorization.Extensions;
 
-internal class DefaultAuthorizationMiddlewareServiceBuilder<TIdentity> : IAuthorizationMiddlewareServiceBuilder<TIdentity> where TIdentity : class, new()
+internal class DefaultAuthorizationMiddlewareServiceBuilder<TIdentity> : IAuthorizationMiddlewareServiceBuilder<TIdentity>
 {
     private readonly IServiceCollection services;
     public DefaultAuthorizationMiddlewareServiceBuilder(IServiceCollection services)
@@ -16,12 +16,6 @@ internal class DefaultAuthorizationMiddlewareServiceBuilder<TIdentity> : IAuthor
         where TAuthorizationChecking: class, IAuthorizationChecking<TIdentity>
     {
         this.services.TryAddTransient<IAuthorizationChecking<TIdentity>, TAuthorizationChecking>();
-        return this;
-    }
-
-    public IAuthorizationMiddlewareServiceBuilder<TIdentity> Done()
-    {
-        this.services.TryAddTransient<AuthorizationMiddleware<TIdentity>>();
         return this;
     }
 }
