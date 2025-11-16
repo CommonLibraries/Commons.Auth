@@ -2,23 +2,23 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
-using Commons.Auth.Application.Abstractions.Authentication.Jwt;
+using Commons.Auth.Application.Abstractions.Authentication.AccessTokens;
 using Commons.Auth.API.Authentication.Contexts;
 
 namespace Commons.Auth.API.Authentication.Middlewares
 {
     public class AuthenticationMiddleware<TIdentity> : IMiddleware
     {
-        private readonly IJwtValidator<TIdentity> jwtValidator;
-        private readonly IJwtTokenContext jwtTokenContext;
+        private readonly IAccessTokenValidator<TIdentity> jwtValidator;
+        private readonly IAccessTokenContext jwtTokenContext;
         private readonly IMutableIdentityContext<TIdentity> identityContext;
 
         public AuthenticationMiddleware(
-            IJwtTokenContext jwtTokenContext,
-            IJwtValidator<TIdentity> jwtValidator,
+            IAccessTokenContext accessTokenContext,
+            IAccessTokenValidator<TIdentity> jwtValidator,
             IMutableIdentityContext<TIdentity> identityContext)
         {
-            this.jwtTokenContext = jwtTokenContext;
+            this.jwtTokenContext = accessTokenContext;
             this.jwtValidator = jwtValidator;
             this.identityContext = identityContext;
         }

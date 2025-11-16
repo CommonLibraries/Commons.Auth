@@ -1,6 +1,6 @@
 using Commons.Auth.API.Authentication.Contexts;
 using Commons.Auth.API.Authentication.Middlewares;
-using Commons.Auth.Application.Abstractions.Authentication.Jwt;
+using Commons.Auth.Application.Abstractions.Authentication.AccessTokens;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,8 +13,8 @@ public static class AuthenticationMiddlewareExtensions
     public static IAuthenticationMiddlewareServiceBuiler<TIdentity> AddAuthenticationMiddleware<TIdentity>(this IServiceCollection services)
     {
         services.TryAddTransient<AuthenticationMiddleware<TIdentity>>();
-        services.TryAddScoped<IJwtTokenContext>(provider => provider.GetRequiredService<IMutableJwtTokenContext>());
-        services.TryAddScoped<IMutableJwtTokenContext, MutableJwtTokenContext>();
+        services.TryAddScoped<IAccessTokenContext>(provider => provider.GetRequiredService<IMutableAccessTokenContext>());
+        services.TryAddScoped<IMutableAccessTokenContext, MutableAccessTokenContext>();
         services.TryAddScoped<IIdentityContext<TIdentity>>(provider => provider.GetRequiredService<IMutableIdentityContext<TIdentity>>());
         services.TryAddScoped<IMutableIdentityContext<TIdentity>, MutableIdentityContext<TIdentity>>();
 

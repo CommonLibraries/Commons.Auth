@@ -1,4 +1,4 @@
-﻿namespace Commons.Auth.Infrastructure.Authentication.Jwt
+﻿namespace Commons.Auth.Infrastructure.Authentication.AccessTokens
 {
     public class JwtOptions
     {

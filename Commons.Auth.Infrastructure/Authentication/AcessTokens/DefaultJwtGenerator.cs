@@ -1,4 +1,4 @@
-﻿using Commons.Auth.Application.Abstractions.Authentication.Jwt;
+﻿using Commons.Auth.Application.Abstractions.Authentication.AccessTokens;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -9,22 +9,22 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Commons.Auth.Infrastructure.Authentication.Jwt
+namespace Commons.Auth.Infrastructure.Authentication.AccessTokens
 {
-    public class DefaultJwtGenerator<TJwtPayload> : IJwtGenerator<TJwtPayload>
+    public class DefaultJwtGenerator<TJwtPayload> : IAccessTokenGenerator<TJwtPayload>
     {
-        private readonly IJwtPayloadMapping<TJwtPayload> payloadMapping;
+        private readonly IAccessTokenPayloadMapping<TJwtPayload> payloadMapping;
         private readonly JwtOptions options;
 
         public DefaultJwtGenerator(
-            IJwtPayloadMapping<TJwtPayload> payloadMapping,
+            IAccessTokenPayloadMapping<TJwtPayload> payloadMapping,
             IOptions<JwtOptions> options)
         {
             this.payloadMapping = payloadMapping;
             this.options = options.Value;
         }
 
-        public JwtTokenDTO GenerateToken(TJwtPayload payload)
+        public AccessTokenDTO Generate(TJwtPayload payload)
         {
             var expiration = DateTime.UtcNow + options.Lifespan;
 
@@ -44,7 +44,7 @@ namespace Commons.Auth.Infrastructure.Authentication.Jwt
 
             var jwtHandler = new JsonWebTokenHandler();
             var token = jwtHandler.CreateToken(tokenDescriptor);
-            return new JwtTokenDTO(token, expiration);
+            return new AccessTokenDTO(token, expiration);
         }
     }
 }

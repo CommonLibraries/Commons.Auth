@@ -1,6 +1,6 @@
 namespace Commons.Auth.API.Authentication.Contexts
 {
-    public interface IJwtTokenContext
+    public interface IAccessTokenContext
     {
         string Current { get; }
     }

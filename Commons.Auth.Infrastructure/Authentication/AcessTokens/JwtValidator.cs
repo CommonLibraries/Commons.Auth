@@ -1,17 +1,17 @@
-﻿using Commons.Auth.Application.Abstractions.Authentication.Jwt;
+﻿using Commons.Auth.Application.Abstractions.Authentication.AccessTokens;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Commons.Auth.Infrastructure.Authentication.Jwt
+namespace Commons.Auth.Infrastructure.Authentication.AccessTokens
 {
-    public class JwtValidator<TJwtPayload> : IJwtValidator<TJwtPayload>
+    public class JwtValidator<TJwtPayload> : IAccessTokenValidator<TJwtPayload>
     {
         private readonly JwtOptions options;
-        private readonly IJwtPayloadMapping<TJwtPayload> payloadMapping;
+        private readonly IAccessTokenPayloadMapping<TJwtPayload> payloadMapping;
 
-        public JwtValidator(IOptions<JwtOptions> options, IJwtPayloadMapping<TJwtPayload> payloadMapping)
+        public JwtValidator(IOptions<JwtOptions> options, IAccessTokenPayloadMapping<TJwtPayload> payloadMapping)
         {
             this.options = options.Value;
             this.payloadMapping = payloadMapping;

@@ -1,6 +1,6 @@
 ﻿using Commons.Auth.API.Authentication.Middlewares;
-using Commons.Auth.Application.Abstractions.Authentication.Jwt;
-using Commons.Auth.Infrastructure.Authentication.Jwt;
+using Commons.Auth.Application.Abstractions.Authentication.AccessTokens;
+using Commons.Auth.Infrastructure.Authentication.AccessTokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
