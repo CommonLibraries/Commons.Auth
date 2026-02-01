@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Commons.Auth.API/Commons.Auth.API.csproj" />
+  <Project Path="Commons.Auth.Application.Abstractions/Commons.Auth.Application.Abstractions.csproj" />
+  <Project Path="Commons.Auth.Infrastructure/Commons.Auth.Infrastructure.csproj" />
+</Solution>
