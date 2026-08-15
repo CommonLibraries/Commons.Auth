@@ -1,4 +1,4 @@
-namespace Commons.Auth.API.Authentication.Contexts;
+namespace Commons.Auth.API.Authentication.Contexts.IdentityContext;
 
 public interface IIdentityContext<TIdentity>
 {

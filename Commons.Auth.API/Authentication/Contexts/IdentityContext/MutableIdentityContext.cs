@@ -1,4 +1,4 @@
-namespace Commons.Auth.API.Authentication.Middlewares;
+namespace Commons.Auth.API.Authentication.Contexts.IdentityContext;
 
 public class MutableIdentityContext<TIdentity> : IMutableIdentityContext<TIdentity>
 {

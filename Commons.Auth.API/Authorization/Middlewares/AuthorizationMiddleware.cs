@@ -1,5 +1,5 @@
 using Commons.API.Auth.DTOs;
-using Commons.Auth.API.Authentication.Contexts;
+using Commons.Auth.API.Authentication.Contexts.IdentityContext;
 using Commons.Auth.Application.Abstractions.Authorizations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;

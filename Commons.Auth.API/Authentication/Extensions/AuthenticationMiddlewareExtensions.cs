@@ -1,7 +1,6 @@
 using Commons.Auth.API.Authentication.Contexts;
+using Commons.Auth.API.Authentication.Contexts.IdentityContext;
 using Commons.Auth.API.Authentication.Middlewares;
-using Commons.Auth.Application.Abstractions.Authentication.AccessTokens;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -16,6 +15,7 @@ public static class AuthenticationMiddlewareExtensions
         services.TryAddScoped<IAccessTokenContext>(provider => provider.GetRequiredService<IMutableAccessTokenContext>());
         services.TryAddScoped<IMutableAccessTokenContext, MutableAccessTokenContext>();
         services.TryAddScoped<IIdentityContext<TIdentity>>(provider => provider.GetRequiredService<IMutableIdentityContext<TIdentity>>());
+        services.TryAddScoped<INotNullableIdentityContext<TIdentity>, NotNullableIdentityContext<TIdentity>>();
         services.TryAddScoped<IMutableIdentityContext<TIdentity>, MutableIdentityContext<TIdentity>>();
 
         return new DefaultAuthenticationMiddlewareServiceBuiler<TIdentity>(services);
