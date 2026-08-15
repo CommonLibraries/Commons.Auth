@@ -1,7 +1,6 @@
-namespace Commons.Auth.API.Authentication.Contexts
+namespace Commons.Auth.API.Authentication.Contexts;
+
+public interface IIdentityContext<TIdentity>
 {
-    public interface IIdentityContext<TIdentity>
-    {
-        TIdentity Current { get; }
-    }
+    TIdentity? Current { get; }
 }
